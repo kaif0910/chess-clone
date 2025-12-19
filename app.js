@@ -4,6 +4,7 @@ const http = require("http");
 const {Chess} = require("chess.js");
 const path = require("path");
 const { title } = require("process");
+const { disconnect } = require("cluster");
 
 const app = express();
 
@@ -12,7 +13,7 @@ const io = socket(server);
 
 const chess = new Chess();
 let players = {};
-let currentPlayer = "W";
+let currentPlayer = "w";
 
 app.set("view engine","ejs");
 app.use(express.static(path.join(__dirname,"public")));
@@ -23,7 +24,27 @@ app.get('/',(req,res)=> {
 
 io.on("connection", function(uniquesocket){
     console.log("connected");
-})
+
+    if(!players.white){
+        players.white = uniquesocket.id;
+        uniquesocket.emit("playerRole","w");
+    } else if(!players.black){
+        players.black = uniquesocket.id;
+        uniquesocket.emit("playerRole","b");
+    } else{
+        uniquesocket.emit("spectatorRole");
+    }
+
+    uniquesocket.on("disconnect",function(){
+        if(uniquesocket.id === players.white){
+            delete players.white;
+        }else if(uniquesocket.id === players.black){
+            delete players.black;
+        }
+    });
+
+    
+});
 
 
 server.listen(3000,()=>{
