@@ -5,3 +5,5 @@ const {chess} = require("chess.js");
 
 const app = express();
 
+const server = http.createServer(app);
+const io = socket(server);
