@@ -51,8 +51,19 @@ io.on("connection", function(uniquesocket){
             if(result){
                 currentPlayer = chess.turn();
                 io.emit("move",move);
+                io.emit("boardState",chess.fen());
             }
-        } catch(err){}
+            else{
+                console.log("invalid move");
+                uniquesocket.emit("invalid move", 
+                    
+                    
+                    move);
+            }
+        } catch(err){
+            console.log(err);
+            uniquesocket.emit("invalid move", move);
+        }
     })
 
 });
