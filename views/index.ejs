@@ -5,6 +5,117 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        /* Reset & base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Chessboard container */
+.chessboard {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    width: 24rem;   /* same as w-96 */
+    height: 24rem;  /* same as h-96 */
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 
+        0 20px 40px rgba(0,0,0,0.6),
+        inset 0 0 0 4px #18181b;
+}
+
+/* Individual square */
+.square {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+/* Light squares */
+.square.light {
+    background-color: #f0d9b5;
+}
+
+/* Dark squares */
+.square.dark {
+    background-color: #b58863;
+}
+
+/* Hover effect */
+.square:hover {
+    transform: scale(1.03);
+}
+
+/* Selected square */
+.square.selected {
+    background-color: #f6f669 !important;
+}
+
+/* Possible move highlight */
+.square.move {
+    background-color: #9fe870 !important;
+}
+
+/* Capture highlight */
+.square.capture {
+    background-color: #e35d6a !important;
+}
+
+/* Chess pieces */
+.piece {
+    cursor: grab;
+}
+
+.piece:active {
+    cursor: grabbing;
+}
+
+/* White pieces */
+.piece.white {
+    color: #ffffff;
+    text-shadow: 0 2px 2px rgba(0,0,0,0.6);
+}
+
+/* Black pieces */
+.piece.black {
+    color: #111827;
+    text-shadow: 0 2px 2px rgba(255,255,255,0.3);
+}
+
+/* Board flip for black player */
+.chessboard.flipped {
+    transform: rotate(180deg);
+}
+
+.chessboard.flipped .square {
+    transform: rotate(180deg);
+}
+
+/* Check highlight */
+.square.check {
+    background-color: #ff6b6b !important;
+}
+
+/* Responsive (mobile) */
+@media (max-width: 500px) {
+    .chessboard {
+        width: 90vw;
+        height: 90vw;
+    }
+
+    .square {
+        font-size: 1.8rem;
+    }
+}
+
+    </style>
 </head>
 <body>
     <div class="w-full h-screen bg-zinc-900 flex items-center justify-center">
@@ -13,5 +124,6 @@
     <script src="https://cdn.socket.io/4.8.1/socket.io.min.js" integrity="sha384-mkQ3/7FUtcGyoppY6bz/PORYoGqOl7/aSUMn2ymDOJcapfS6PHqxhRTMh1RR0Q6+" crossorigin="anonymous"></script>
     <script src="/js/chessgame.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js" integrity="sha512-xRllwz2gdZciIB+AkEbeq+gVhX8VB8XsfqeFbUh+SzHlN96dEduwtTuVuc2u9EROlmW9+yhRlxjif66ORpsgVA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
 </body>
 </html>
